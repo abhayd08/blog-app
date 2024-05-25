@@ -1,0 +1,14 @@
+.ql-container,
+.ql-toolbar {
+  border: 1px solid rgb(229 231 235) !important;
+}
+
+.ql-toolbar {
+  border-top-left-radius: 0.5rem !important;
+  border-top-right-radius: 0.5rem !important;
+}
+
+.ql-container {
+  border-bottom-left-radius: 0.5rem !important;
+  border-bottom-right-radius: 0.5rem !important;
+}

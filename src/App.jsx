@@ -2,6 +2,7 @@ import Home from "./Components/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import AddBlog from "../src/Components/AddBlog/AddBlog";
 import ShowBlogInDetail from "./Components/ShowBlogInDetail/ShowBlogInDetail";
+import "./App.css";
 
 const App = () => {
   return (

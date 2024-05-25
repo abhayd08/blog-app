@@ -1,6 +1,13 @@
-const Blog = ({ image, category, title, avatar, author, date }) => {
+import { useNavigate } from "react-router-dom";
+
+const Blog = ({ image, category, title, avatar, author, date, id }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="rounded-lg p-2 ring-1 ring-gray-200 max-w-xs">
+    <div
+      onClick={() => navigate(`/blog/${id}`)}
+      className="rounded-lg cursor-pointer hover:translate-y-0.5 transition-all active:translate-x-0 active:scale-[0.98] p-2 ring-1 ring-gray-200 w-[20rem] min-h-[23rem] max-w-xs"
+    >
       <img
         src={image}
         className="rounded-lg w-full h-[13.5rem]"
@@ -8,9 +15,9 @@ const Blog = ({ image, category, title, avatar, author, date }) => {
       />
       <div className="flex flex-col mt-3 gap-4 p-1.5">
         <div>
-        <span className="px-2 text-xs py-2 rounded-lg bg-blue-50 text-center text-blue-500 font-semibold">
-          {category}
-        </span>
+          <span className="px-2 text-xs py-2 rounded-lg bg-blue-50 text-center text-blue-500 font-semibold">
+            {category}
+          </span>
         </div>
         <h3 className="font-semibold text-lg">{title}</h3>
         <div className="flex justify-between w-full items-center gap-5">

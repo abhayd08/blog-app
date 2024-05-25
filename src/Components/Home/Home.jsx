@@ -1,8 +1,8 @@
 import Blog from "../Blog/Blog";
-import styles from "./Home.module.css";
 import blogsData from "../../db/BlogsData";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import styles from "./Home.module.css";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,9 +16,11 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="py-2 p-2 sm:p-2.5">
-      <h1 className="font-bold text-gray-800 text-lg mb-5">Latest Post</h1>
-      <section className="grid place-items-center items-stretch grid-cols-1 gap-6 lg:grid-cols-4">
+    <div className="p-2 sm:p-2.5">
+      <h1 className="font-extrabold text-gray-800 text-lg mb-4">Latest Post</h1>
+      <section
+        className={`grid items-stretch place-items-center gap-10 ${styles.blogsGrid}`}
+      >
         {blogsDataArr.map((blog) => {
           return (
             <Blog
@@ -37,8 +39,8 @@ const Home = () => {
           <img
             onClick={() => navigate("/add-blog")}
             src="/assets/add.png"
-            alt="Add"
-            className="w-20 transition-all cursor-pointer hover:scale-95 active:scale-90"
+            alt="Add a Blog"
+            className="w-20 transition-all cursor-pointer hover:scale-[0.98] active:scale-[0.96]"
           />
         </div>
       </section>

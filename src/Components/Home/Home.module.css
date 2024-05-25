@@ -1,0 +1,17 @@
+@media (min-width: 720px) {
+  .blogsGrid {
+    grid-template-columns: repeat(2, 20rem);
+  }
+}
+
+@media (min-width: 1080px) {
+  .blogsGrid {
+    grid-template-columns: repeat(3, 20rem);
+  }
+}
+
+@media (min-width: 1450px) {
+  .blogsGrid {
+    grid-template-columns: repeat(4, 20rem);
+  }
+}

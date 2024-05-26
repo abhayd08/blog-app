@@ -10,7 +10,7 @@ const Blog = ({ image, category, title, avatar, author, date, id }) => {
     >
       <img
         src={image}
-        className="rounded-lg w-full h-[13.5rem]"
+        className="rounded-lg w-auto mx-auto h-[13rem]"
         alt="Post Thumbnail"
       />
       <div className="flex flex-col mt-3 gap-4 p-1">

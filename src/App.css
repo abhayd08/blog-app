@@ -12,3 +12,13 @@
   border-bottom-left-radius: 0.5rem !important;
   border-bottom-right-radius: 0.5rem !important;
 }
+
+.ql-container:active {
+  transform: scale(0.99);
+  transition: 150ms all;
+}
+
+img {
+  max-height: 20rem !important;
+  border-radius: 0.5rem;
+}

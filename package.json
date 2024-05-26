@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "blueimp-load-image": "^5.16.0",
+    "browser-image-compression": "^2.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-quill": "^2.0.0",

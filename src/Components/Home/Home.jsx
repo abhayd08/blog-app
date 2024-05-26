@@ -9,8 +9,6 @@ const Home = () => {
 
   const [blogsDataArr, setBlogsDataArr] = blogsData();
 
-  console.log(blogsDataArr);
-
   useEffect(() => {
     if (localStorage.getItem("blogsDataArr")) {
       setBlogsDataArr(JSON.parse(localStorage.getItem("blogsDataArr")));
@@ -18,10 +16,10 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="p-2 sm:p-2.5">
+    <div className="p-2 pb-4 sm:pb-5 sm:p-2.5">
       <h1 className="font-extrabold text-gray-800 text-lg mb-4">Latest Post</h1>
       <section
-        className={`grid items-stretch place-items-center justify-around mx-auto gap-10 ${styles.blogsGrid}`}
+        className={`grid items-stretch place-items-center mx-auto gap-10 ${styles.blogsGrid}`}
       >
         {blogsDataArr.map((blog) => {
           return (

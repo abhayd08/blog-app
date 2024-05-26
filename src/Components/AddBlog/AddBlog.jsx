@@ -4,6 +4,7 @@ import blogsData from "../../db/BlogsData";
 import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { enqueueSnackbar } from "notistack";
 
 const AddBlog = () => {
   const [image, setImage] = useState(null);
@@ -72,6 +73,9 @@ const AddBlog = () => {
         return [blogToAdd, ...prevState];
       });
       const timer = setTimeout(() => {
+        enqueueSnackbar("The blog is saved.", {
+          variant: "success",
+        });
         navigate("/");
       }, 0);
       return () => clearTimeout(timer);
@@ -297,6 +301,17 @@ const AddBlog = () => {
         </button>
         <button
           type="submit"
+          onClick={() => {
+            if (category && title && content && author && date && !image) {
+              enqueueSnackbar("Include an image to continue.", {
+                variant: "info",
+              });
+            } else if (!category || !title || !content || !author || !date) {
+              enqueueSnackbar("Fill in all the fields to proceed", {
+                variant: "info",
+              });
+            }
+          }}
           className="p-2.5 px-5 rounded-xl transition-all hover:scale-[0.98] active:scale-[0.96] text-white font-medium bg-blue-500"
         >
           Save

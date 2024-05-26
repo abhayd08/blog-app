@@ -1,6 +1,7 @@
 @media (min-width: 720px) {
   .blogsGrid {
     grid-template-columns: repeat(2, 20rem);
+    justify-content: space-evenly;
   }
 }
 
@@ -13,5 +14,6 @@
 @media (min-width: 1450px) {
   .blogsGrid {
     grid-template-columns: repeat(4, 20rem);
+    justify-content: space-between;
   }
 }

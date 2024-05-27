@@ -24,8 +24,6 @@ const AddBlog = () => {
   const avatarRef = useRef(null);
   const labelRef = useRef(null);
 
-  console.log(content)
-
   const [blogsDataArr, setBlogsDataArr] = blogsData();
 
   const navigate = useNavigate();

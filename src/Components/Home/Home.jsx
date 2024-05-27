@@ -54,13 +54,12 @@ const Home = () => {
               />
             );
           })}
-          <div className="rounded-lg min-h-[23rem] flex justify-center items-center p-2 ring-1 ring-gray-200 w-[20rem] max-w-xs">
-            <img
-              onClick={() => navigate("/add-blog")}
-              src="/assets/add.png"
-              alt="Add a Blog"
-              className="w-20 transition-all cursor-pointer hover:scale-[0.98] active:scale-[0.96]"
-            />
+          <div
+            onClick={() => navigate("/add-blog")}
+            className="rounded-lg transition-all cursor-pointer active:scale-[0.96] min-h-[23rem] flex justify-center flex-col gap-4 items-center p-2 ring-1 ring-gray-200 w-[20rem] max-w-xs"
+          >
+            <img src="/assets/add.png" alt="Add a Blog" className="w-20 transition-all hover:scale-[0.98]" />
+            <span className="font-medium transition-all hover:scale-[0.98]">Post a Blog</span>
           </div>
         </section>
       </div>

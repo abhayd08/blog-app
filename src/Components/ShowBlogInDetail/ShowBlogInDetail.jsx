@@ -40,7 +40,7 @@ const ShowBlogInDetail = () => {
       </div>
       <img
         src={blogToShow?.image}
-        className="rounded-xl mt-6 h-auto min-w-[300px] max-h-[20rem]"
+        className="rounded-xl mt-6 h-auto min-w-[300px] max-h-none"
         alt="Post Thumbnail"
       />
       <div

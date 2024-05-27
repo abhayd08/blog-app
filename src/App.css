@@ -19,6 +19,6 @@
 }
 
 img {
-  max-height: 20rem !important;
+  max-height: 20rem;
   border-radius: 0.5rem;
 }

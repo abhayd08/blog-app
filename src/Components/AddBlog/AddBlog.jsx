@@ -143,7 +143,7 @@ const AddBlog = () => {
   }, []);
 
   return (
-    <form onSubmit={addBlog} className="p-1.5 py-2.5 max-w-2xl mx-auto">
+    <form onSubmit={addBlog} className="p-1.5 pt-2.5 pb-1 max-w-2xl mx-auto">
       <h5 className="font-bold text-gray-800 text-lg">Add a Blog!</h5>
       <div className="rounded-lg p-2 mt-4 ring-1 ring-gray-200 sm:p-2.5 min-h-[23rem]">
         <div className="rounded-lg w-full flex flex-col gap-2 justify-center items-center h-[13.5rem]">
@@ -185,7 +185,7 @@ const AddBlog = () => {
               placeholder="Category"
               onChange={(e) => setCategory(e.target.value)}
               required
-              className="p-2 max-w-full text-xs transition-all active:scale-[0.99] rounded-lg bg-blue-50 text-center text-blue-500 font-semibold placeholder-blue-500 outline-0 border-0"
+              className="p-2 max-w-full text-sm transition-all active:scale-[0.99] rounded-lg bg-blue-50 text-center text-blue-500 font-semibold placeholder-blue-500 outline-0 border-0"
             />
           </div>
           <div>
@@ -292,7 +292,7 @@ const AddBlog = () => {
                   name="author"
                   required
                   onChange={(e) => setAuthor(e.target.value)}
-                  className="text-xs pt-1 transition-all active:scale-[0.99] font-medium border-0 outline-0 placeholder-gray-500 text-gray-500"
+                  className="text-sm pt-1 transition-all active:scale-[0.99] font-medium border-0 outline-0 placeholder-gray-500 text-gray-500"
                 />
               </div>
             </div>
@@ -307,7 +307,7 @@ const AddBlog = () => {
                 onChange={(e) => setDate(e.target.value)}
                 type="date"
                 required
-                className="text-xs pt-1 transition-all active:scale-[0.99] font-medium border-0 placeholder-gray-500 outline-0 text-gray-500"
+                className="text-sm pt-1 transition-all active:scale-[0.99] font-medium border-0 placeholder-gray-500 outline-0 text-gray-500"
               />
             </div>
           </div>

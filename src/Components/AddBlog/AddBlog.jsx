@@ -166,8 +166,10 @@ const AddBlog = () => {
             ref={inputRef}
             type="file"
             required
+            name="img-picker"
+            id="img-picker"
             accept="image/*"
-            style={{ display: "none" }}
+            className="hidden"
             onChange={handleImageChange}
           />
           <ReactQuill
@@ -269,10 +271,11 @@ const AddBlog = () => {
                 </label>
                 <input
                   id="avatar-picker"
+                  name="avatar-picker"
                   ref={avatarRef}
                   type="file"
                   accept="image/*"
-                  style={{ display: "none" }}
+                  className="hidden"
                   onChange={handleAvatarChange}
                 />
                 <ReactQuill

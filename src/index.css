@@ -49,3 +49,9 @@ h5,
 h6 {
   font-weight: 700;
 }
+
+@media (max-width: 340px) {
+  body {
+    display: flex;
+  }
+}

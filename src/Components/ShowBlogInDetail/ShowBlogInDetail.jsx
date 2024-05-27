@@ -25,7 +25,7 @@ const ShowBlogInDetail = () => {
         <div className="inline-flex items-center gap-1.5">
           <img
             src={blogToShow?.avatar}
-            className="rounded-full w-6 h-6"
+            className="rounded-full w-7 h-7"
             alt={blogToShow?.author}
           />
           <h6 className="text-xs font-medium">{blogToShow?.author}</h6>
@@ -40,11 +40,11 @@ const ShowBlogInDetail = () => {
       </div>
       <img
         src={blogToShow?.image}
-        className="rounded-xl mt-6 h-auto max-h-[20rem]"
+        className="rounded-xl mt-6 h-auto min-w-[300px] max-h-[20rem]"
         alt="Post Thumbnail"
       />
       <div
-        className="mt-6"
+        className="mt-7"
         dangerouslySetInnerHTML={{ __html: blogToShow?.content }}
       ></div>
     </div>

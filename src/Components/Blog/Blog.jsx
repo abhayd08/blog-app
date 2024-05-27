@@ -19,7 +19,9 @@ const Blog = ({ image, category, title, avatar, author, date, id }) => {
             {category}
           </h6>
         </div>
-        <h3 className="font-semibold leading-6 text-lg">{title}</h3>
+        <h3 className="font-semibold leading-6 text-lg line-clamp-3">
+          {title}
+        </h3>
         <div className="inline-flex items-center gap-10 gap-y-6 flex-wrap">
           <div className="inline-flex items-center gap-2">
             <img src={avatar} className="rounded-full w-7 h-7" alt={author} />

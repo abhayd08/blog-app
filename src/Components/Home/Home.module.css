@@ -2,12 +2,14 @@
   .blogsGrid {
     grid-template-columns: repeat(2, 20rem);
     justify-content: space-evenly;
+    gap: calc((100vw - 40rem) / 2) !important;
   }
 }
 
 @media (min-width: 1080px) {
   .blogsGrid {
     grid-template-columns: repeat(3, 20rem);
+    gap: calc((100vw - 60rem) / 3) !important;
   }
 }
 
@@ -15,5 +17,6 @@
   .blogsGrid {
     grid-template-columns: repeat(4, 20rem);
     justify-content: space-between;
+    gap: calc((100vw - 80rem) / 4) !important;
   }
 }

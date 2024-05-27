@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { enqueueSnackbar } from "notistack";
+import imageCompression from "browser-image-compression";
 
 const AddBlog = () => {
   const [image, setImage] = useState(null);
@@ -14,19 +15,33 @@ const AddBlog = () => {
   const [avatar, setAvatar] = useState(null);
   const [author, setAuthor] = useState(null);
   const [date, setDate] = useState(null);
+  const [imgPlaceholder, setImgPlaceholder] = useState("/assets/image.png");
+  const [avatarPlaceholder, setAvatarPlaceholder] =
+    useState("/assets/avatar.png");
 
   const quillRef = useRef(null);
   const inputRef = useRef(null);
   const avatarRef = useRef(null);
   const labelRef = useRef(null);
 
+  console.log(content)
+
   const [blogsDataArr, setBlogsDataArr] = blogsData();
 
   const navigate = useNavigate();
 
-  const handleImageChange = () => {
+  const handleImageChange = async () => {
+    const options = {
+      maxSizeMB: 100 / 1024,
+      useWebWorker: true,
+    };
+    setImgPlaceholder("/assets/loading.png");
     const file = inputRef.current.files[0];
-    if (file) {
+    const compressedFile = await imageCompression(file, options);
+    const timer = setTimeout(() => {
+      setImgPlaceholder("/assets/image.png");
+    }, 0);
+    if (compressedFile) {
       const reader = new FileReader();
       reader.onload = () => {
         const imgURL = reader.result;
@@ -38,11 +53,22 @@ const AddBlog = () => {
       };
       reader.readAsDataURL(file);
     }
+
+    return () => clearTimeout(timer);
   };
 
-  const handleAvatarChange = () => {
+  const handleAvatarChange = async () => {
+    const options = {
+      maxSizeMB: 50 / 1024,
+      useWebWorker: true,
+    };
+    setAvatarPlaceholder("/assets/loading.png");
     const file = avatarRef.current.files[0];
-    if (file) {
+    const compressedFile = await imageCompression(file, options);
+    const timer = setTimeout(() => {
+      setAvatarPlaceholder("/assets/avatar.png");
+    }, 0);
+    if (compressedFile) {
       const reader = new FileReader();
       reader.onload = () => {
         const imgURL = reader.result;
@@ -50,6 +76,8 @@ const AddBlog = () => {
       };
       reader.readAsDataURL(file);
     }
+
+    return () => clearTimeout(timer);
   };
 
   const handleContentChange = (html) => {
@@ -69,16 +97,28 @@ const AddBlog = () => {
         author: author,
         date: date,
       };
-      setBlogsDataArr((prevState) => {
-        return [blogToAdd, ...prevState];
-      });
-      const timer = setTimeout(() => {
-        enqueueSnackbar("The blog is saved.", {
-          variant: "success",
+
+      const blogsArr = [...blogsDataArr];
+      blogsArr.unshift(blogToAdd);
+
+      try {
+        localStorage.setItem("blogsDataArr", JSON.stringify(blogsArr));
+        setBlogsDataArr(blogsArr);
+        setTimeout(() => {
+          navigate("/");
+          enqueueSnackbar("The blog has been saved.", {
+            variant: "success",
+          });
         });
-        navigate("/");
-      }, 0);
-      return () => clearTimeout(timer);
+      } catch (error) {
+        enqueueSnackbar(
+          "The local storage memory capacity has been reached. Please try reducing the size of the images or consider clearing local storage.",
+          {
+            variant: "warning",
+          }
+        );
+        console.log(error);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -104,16 +144,12 @@ const AddBlog = () => {
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("blogsDataArr", JSON.stringify(blogsDataArr));
-  }, [blogsDataArr]);
-
   return (
-    <form onSubmit={addBlog} className="p-1.5 py-2.5 max-w-xl mx-auto">
-      <h5 className="font-bold text-lg">Add a Blog!</h5>
+    <form onSubmit={addBlog} className="p-1.5 py-2.5 max-w-2xl mx-auto">
+      <h5 className="font-bold text-gray-800 text-lg">Add a Blog!</h5>
       <div className="rounded-lg p-2 mt-4 ring-1 ring-gray-200 sm:p-2.5 min-h-[23rem]">
         <div className="rounded-lg w-full flex flex-col gap-2 justify-center items-center h-[13.5rem]">
-          <label ref={labelRef} htmlFor="img-picker">
+          <label ref={labelRef}>
             {image ? (
               <img
                 src={image}
@@ -122,7 +158,7 @@ const AddBlog = () => {
               />
             ) : (
               <img
-                src="/assets/image.png"
+                src={imgPlaceholder}
                 className="w-14 transition-all cursor-pointer hover:scale-[0.98] active:scale-[0.96]"
                 alt="Add Image"
               />
@@ -151,7 +187,7 @@ const AddBlog = () => {
               placeholder="Category"
               onChange={(e) => setCategory(e.target.value)}
               required
-              className="p-2 max-w-full transition-all active:scale-[0.99] rounded-lg bg-blue-50 text-center text-blue-500 font-semibold placeholder-blue-500 outline-0 border-0"
+              className="p-2 max-w-full text-xs transition-all active:scale-[0.99] rounded-lg bg-blue-50 text-center text-blue-500 font-semibold placeholder-blue-500 outline-0 border-0"
             />
           </div>
           <div>
@@ -165,14 +201,14 @@ const AddBlog = () => {
                 onChange={(e) => setTitle(e.target.value)}
                 required
                 placeholder="Add a Title"
-                className="font-semibold min-h-[3rem] w-full text-lg items-center placeholder-black text-black outline-0 border-0"
+                className="font-semibold min-h-[3rem] w-full text-base items-center placeholder-black text-black outline-0 border-0"
               />
             </div>
           </div>
           <div>
             <label className="text-xs text-gray-600">Content</label>
             <ReactQuill
-              className="mt-1 rounded-lg"
+              className="mt-1 min-w-[300px]"
               placeholder="Write something..."
               theme="snow"
               onChange={handleContentChange}
@@ -188,7 +224,7 @@ const AddBlog = () => {
                     { indent: "-1" },
                     { indent: "+1" },
                   ],
-                  ["link", "image", "video"],
+                  ["image", "video"],
                   ["clean"],
                 ],
                 clipboard: {
@@ -207,18 +243,17 @@ const AddBlog = () => {
                 "list",
                 "bullet",
                 "indent",
-                "link",
                 "image",
                 "video",
               ]}
             />
           </div>
-          <div className="flex justify-between mt-10 flex-wrap sm:flex-nowrap gap-y-8 w-full items-center gap-5">
+          <div className="flex justify-between mt-8 flex-wrap sm:flex-nowrap gap-y-8 w-full items-center gap-5">
             <div className="flex items-center w-full gap-3">
               <div>
                 <label
                   htmlFor="avatar-picker"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-xs font-medium text-gray-700"
                 >
                   {avatar ? (
                     <img
@@ -228,7 +263,7 @@ const AddBlog = () => {
                     />
                   ) : (
                     <img
-                      src="/assets/avatar.png"
+                      src={avatarPlaceholder}
                       className="w-6 h-6 transition-all rounded-md cursor-pointer hover:scale-[0.98] active:scale-[0.96]"
                       alt="Add Avatar"
                     />
@@ -248,13 +283,6 @@ const AddBlog = () => {
                   modules={{ toolbar: false }}
                   className="hidden"
                 />
-                <input
-                  id="avatar-picker"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleAvatarChange}
-                  className="hidden"
-                />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-xs text-gray-600" htmlFor="author">
@@ -266,7 +294,7 @@ const AddBlog = () => {
                   name="author"
                   required
                   onChange={(e) => setAuthor(e.target.value)}
-                  className="text-sm pt-1 transition-all active:scale-[0.99] font-medium border-0 outline-0 text-gray-400"
+                  className="text-xs pt-1 transition-all active:scale-[0.99] font-medium border-0 outline-0 placeholder-gray-500 text-gray-500"
                 />
               </div>
             </div>
@@ -281,7 +309,7 @@ const AddBlog = () => {
                 onChange={(e) => setDate(e.target.value)}
                 type="date"
                 required
-                className="text-sm pt-1 transition-all active:scale-[0.99] font-medium border-0 outline-0 text-gray-400"
+                className="text-xs pt-1 transition-all active:scale-[0.99] font-medium border-0 placeholder-gray-500 outline-0 text-gray-500"
               />
             </div>
           </div>
@@ -295,7 +323,7 @@ const AddBlog = () => {
             setContent(null);
           }}
           type="reset"
-          className="py-2.5 px-2 hover:scale-[0.98] active:scale-[0.96] transition-all text-[#f31260] font-medium rounded-xl"
+          className="py-2.5 px-2 hover:scale-[0.98] active:scale-[0.96] border-0 outline-0 transition-all text-[#f31260] font-medium rounded-xl"
         >
           Reset
         </button>
@@ -303,16 +331,16 @@ const AddBlog = () => {
           type="submit"
           onClick={() => {
             if (category && title && content && author && date && !image) {
-              enqueueSnackbar("Include an image to continue.", {
+              enqueueSnackbar("Please include an image to proceed.", {
                 variant: "info",
               });
             } else if (!category || !title || !content || !author || !date) {
-              enqueueSnackbar("Fill in all the fields to proceed", {
+              enqueueSnackbar("Please complete all fields to proceed.", {
                 variant: "info",
               });
             }
           }}
-          className="p-2.5 px-5 rounded-xl transition-all hover:scale-[0.98] active:scale-[0.96] text-white font-medium bg-blue-500"
+          className="p-2.5 px-5 border-0 outline-0 rounded-xl transition-all hover:scale-[0.98] active:scale-[0.96] text-white font-medium bg-blue-500"
         >
           Save
         </button>
